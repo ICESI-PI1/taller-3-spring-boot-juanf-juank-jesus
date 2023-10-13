@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import icesi.edu.datamodel.persistence.model.Author;
 import icesi.edu.datamodel.persistence.model.Book;
 
+@Repository
 public class AuthorRepository implements AuthorRepositoryI{
 
     private List<Author> authors;
