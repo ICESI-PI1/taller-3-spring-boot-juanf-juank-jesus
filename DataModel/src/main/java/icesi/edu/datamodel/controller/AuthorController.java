@@ -5,11 +5,13 @@ import icesi.edu.datamodel.persistence.model.Book;
 import icesi.edu.datamodel.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Repository
 @RestController
 @RequestMapping("/autores")
 public class AuthorController {
