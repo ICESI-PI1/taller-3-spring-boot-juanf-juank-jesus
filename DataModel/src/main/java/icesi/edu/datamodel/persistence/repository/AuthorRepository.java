@@ -3,7 +3,7 @@ package icesi.edu.datamodel.persistence.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Random;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,11 +14,19 @@ import icesi.edu.datamodel.persistence.model.Book;
 public class AuthorRepository implements AuthorRepositoryI {
 
     private List<Author> authors;
-    private AtomicLong idGenerator; // para generar IDs
+    private Random random;
 
     public AuthorRepository() {
         authors = new ArrayList<>();
-        idGenerator = new AtomicLong(1); // iniciar contador de ID en 1
+        random = new Random();
+    }
+
+    private long generateUniqueId() {
+        long id;
+        do {
+            id = Math.abs(random.nextLong());
+        } while (findById(id).isPresent());
+        return id;
     }
 
     @Override
@@ -34,7 +42,7 @@ public class AuthorRepository implements AuthorRepositoryI {
     @Override
     public boolean add(Author author) {
         if (author != null) {
-            author.setId(idGenerator.getAndIncrement()); // asignar ID y aumentar contador
+            author.setId(generateUniqueId());
             return authors.add(author);
         }
         return false;
@@ -47,7 +55,7 @@ public class AuthorRepository implements AuthorRepositoryI {
         if (opt.isPresent()) {
             Author existingAuthor = opt.get();
             delete(existingAuthor.getId());
-            newAuthor.setId(id); // asignar el mismo ID al nuevo autor
+            newAuthor.setId(id);
             return add(newAuthor);
         } else {
             return false;
@@ -69,6 +77,6 @@ public class AuthorRepository implements AuthorRepositoryI {
         if (author.isPresent()) {
             return author.get().getBooks();
         }
-        return new ArrayList<>(); // retornar lista vacía si el autor no se encuentra
+        return new ArrayList<>();
     }
 }

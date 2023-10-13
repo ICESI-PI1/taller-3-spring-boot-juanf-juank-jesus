@@ -22,7 +22,7 @@ public class BookService implements BookServiceI {
         return repository.getAll();
     }
 
-    // Agregando el método findAll() que redirige al método getAll()
+
     public List<Book> findAll() {
         return getAll();
     }
@@ -47,4 +47,3 @@ public class BookService implements BookServiceI {
         return repository.delete(id);
     }
 }
-
