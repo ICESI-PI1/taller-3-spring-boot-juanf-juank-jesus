@@ -1,4 +1,4 @@
-package icesi.edu.datamodel.security;
+package icesi.edu.datamodel.config;
 
 import java.io.Serializable;
 import java.util.Date;
