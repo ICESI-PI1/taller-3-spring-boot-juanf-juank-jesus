@@ -1,51 +1,44 @@
 package icesi.edu.datamodel.service;
 
+import icesi.edu.datamodel.persistence.model.Author;
+import icesi.edu.datamodel.persistence.model.Book; // Asegúrate de que esta importación sea correcta
+import icesi.edu.datamodel.persistence.repository.AuthorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import icesi.edu.datamodel.persistence.model.Author;
-import icesi.edu.datamodel.persistence.model.Book;
-import icesi.edu.datamodel.persistence.repository.AuthorRepository;
-
 @Service
-public class AuthorService implements AuthorServiceI{
+public class AuthorService {
 
-    private AuthorRepository repository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
-    public AuthorService(){
-        repository = new AuthorRepository();
+    public List<Author> findAll() {
+        return authorRepository.getAll();
     }
 
-    @Override
-    public List<Author> getAll() {
-        return repository.getAll();
+    public Optional<Author> findById(Long id) {
+        return authorRepository.findById(id);
     }
 
-    @Override
-    public Optional<Author> findById(long id) {
-        return repository.findById(id);
+    public Author save(Author author) {
+        if (authorRepository.add(author)) {
+            return author;
+        }
+        throw new RuntimeException("Error saving the author");
     }
 
-    @Override
-    public boolean add(Author author) {
-        return repository.add(author);
+    public boolean update(Long id, Author author) {
+        return authorRepository.update(id, author);
     }
 
-    @Override
-    public boolean update(long id, Author newAuthor) {
-        return repository.update(id, newAuthor);
+    public boolean delete(Long id) {
+        return authorRepository.delete(id);
     }
 
-    @Override
-    public boolean delete(long id) {
-        return repository.delete(id);
+    public List<Book> findBooksByAuthor(Long id) {
+        return authorRepository.getBooks(id);
     }
-
-    @Override
-    public List<Book> getBooks(long id) {
-        return repository.getBooks(id);
-    }
-    
 }

@@ -9,11 +9,11 @@ import icesi.edu.datamodel.persistence.model.Book;
 import icesi.edu.datamodel.persistence.repository.BookRepository;
 
 @Service
-public class BookService implements BookServiceI{
+public class BookService implements BookServiceI {
 
     private BookRepository repository;
 
-    public BookService(){
+    public BookService() {
         repository = new BookRepository();
     }
 
@@ -22,9 +22,14 @@ public class BookService implements BookServiceI{
         return repository.getAll();
     }
 
+    // Agregando el método findAll() que redirige al método getAll()
+    public List<Book> findAll() {
+        return getAll();
+    }
+
     @Override
     public Optional<Book> findById(long id) {
-       return repository.findById(id);
+        return repository.findById(id);
     }
 
     @Override
@@ -41,5 +46,5 @@ public class BookService implements BookServiceI{
     public boolean delete(long id) {
         return repository.delete(id);
     }
-    
 }
+
