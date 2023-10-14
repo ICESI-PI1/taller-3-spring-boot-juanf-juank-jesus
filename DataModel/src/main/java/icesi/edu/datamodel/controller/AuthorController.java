@@ -43,7 +43,9 @@ public class AuthorController {
                     HttpStatus.NOT_FOUND, "Unable to update. Author with id " + id + " not found."
             );
         }
-        return author;
+        return authorService.findById(id).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Author not found after update"
+        ));
     }
 
     @DeleteMapping("/{id}")
