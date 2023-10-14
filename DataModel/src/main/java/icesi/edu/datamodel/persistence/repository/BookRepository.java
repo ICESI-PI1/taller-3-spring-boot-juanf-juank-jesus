@@ -1,6 +1,7 @@
 package icesi.edu.datamodel.persistence.repository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -10,12 +11,12 @@ import org.springframework.stereotype.Repository;
 import icesi.edu.datamodel.persistence.model.Book;
 
 @Repository
-public class BookRepository implements BookRepositoryI{
+public class BookRepository implements BookRepositoryI {
 
     private List<Book> books;
     private Random random;
 
-    public BookRepository(){
+    public BookRepository() {
         books = new ArrayList<>();
         random = new Random();
     }
@@ -40,7 +41,7 @@ public class BookRepository implements BookRepositoryI{
 
     @Override
     public boolean add(Book book) {
-        if(book != null) {
+        if (book != null) {
             book.setId(generateUniqueId());
             return books.add(book);
         }
@@ -51,17 +52,24 @@ public class BookRepository implements BookRepositoryI{
     public boolean update(long id, Book newBook) {
         Optional<Book> opt = findById(id);
 
-        if(opt.isPresent()){
-            delete(opt.get().getId());
+        if (opt.isPresent()) {
+            int index = books.indexOf(opt.get());
             newBook.setId(id);
-            return add(newBook);
-        } else{
-            return false;
+            books.set(index, newBook);
+            return true;
         }
+        return false;
     }
 
     @Override
     public boolean delete(long id) {
-        return books.remove(findById(id).orElse(null));
+        Iterator<Book> it = books.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId() == id) {
+                it.remove();
+                return true;
+            }
+        }
+        return false;
     }
 }

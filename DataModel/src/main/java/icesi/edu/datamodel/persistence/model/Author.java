@@ -1,7 +1,7 @@
 package icesi.edu.datamodel.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,5 +11,7 @@ public class Author {
     private long id;
     private String name;
     private String nacionality;
+
+    @JsonIgnore
     private List<Book> books;
 }
