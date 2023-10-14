@@ -54,13 +54,17 @@ public class AuthorRepository implements AuthorRepositoryI {
 
         if (opt.isPresent()) {
             Author existingAuthor = opt.get();
-            delete(existingAuthor.getId());
-            newAuthor.setId(id);
-            return add(newAuthor);
+
+            existingAuthor.setName(newAuthor.getName());
+            existingAuthor.setNacionality(newAuthor.getNacionality());
+
+            return true;
         } else {
             return false;
         }
     }
+
+
 
     @Override
     public boolean delete(long id) {
