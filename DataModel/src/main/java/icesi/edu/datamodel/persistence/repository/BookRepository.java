@@ -53,9 +53,20 @@ public class BookRepository implements BookRepositoryI {
         Optional<Book> opt = findById(id);
 
         if (opt.isPresent()) {
-            int index = books.indexOf(opt.get());
-            newBook.setId(id);
-            books.set(index, newBook);
+            Book currentBook = opt.get();
+
+            if (newBook.getTitle() != null) {
+                currentBook.setTitle(newBook.getTitle());
+            }
+
+            if (newBook.getPublicationDate() != null) {
+                currentBook.setPublicationDate(newBook.getPublicationDate());
+            }
+
+            if (newBook.getAuthor() != null) {
+                currentBook.setAuthor(newBook.getAuthor());
+            }
+
             return true;
         }
         return false;
