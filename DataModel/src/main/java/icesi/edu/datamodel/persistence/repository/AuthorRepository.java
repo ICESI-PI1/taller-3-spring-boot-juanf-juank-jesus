@@ -59,8 +59,8 @@ public class AuthorRepository implements AuthorRepositoryI {
                 existingAuthor.setName(newAuthor.getName());
             }
 
-            if (newAuthor.getNacionality() != null) {
-                existingAuthor.setNacionality(newAuthor.getNacionality());
+            if (newAuthor.getNationality() != null) {
+                existingAuthor.setNationality(newAuthor.getNationality());
             }
 
             return true;

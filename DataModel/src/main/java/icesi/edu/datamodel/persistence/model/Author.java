@@ -10,7 +10,7 @@ import lombok.Data;
 public class Author {
     private long id;
     private String name;
-    private String nacionality;
+    private String nationality;
 
     @JsonIgnore
     private List<Book> books;
