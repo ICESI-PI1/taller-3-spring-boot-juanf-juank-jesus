@@ -55,14 +55,20 @@ public class AuthorRepository implements AuthorRepositoryI {
         if (opt.isPresent()) {
             Author existingAuthor = opt.get();
 
-            existingAuthor.setName(newAuthor.getName());
-            existingAuthor.setNacionality(newAuthor.getNacionality());
+            if (newAuthor.getName() != null) {
+                existingAuthor.setName(newAuthor.getName());
+            }
+
+            if (newAuthor.getNacionality() != null) {
+                existingAuthor.setNacionality(newAuthor.getNacionality());
+            }
 
             return true;
         } else {
             return false;
         }
     }
+
 
 
 
