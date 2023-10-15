@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import icesi.edu.datamodel.persistence.model.Author;
 import org.springframework.stereotype.Repository;
 
 import icesi.edu.datamodel.persistence.model.Book;
@@ -43,10 +44,17 @@ public class BookRepository implements BookRepositoryI {
     public boolean add(Book book) {
         if (book != null) {
             book.setId(generateUniqueId());
+
+            Author author = book.getAuthor();
+            if (author != null) {
+                author.addBook(book);
+            }
+
             return books.add(book);
         }
         return false;
     }
+
 
     @Override
     public boolean update(long id, Book newBook) {
