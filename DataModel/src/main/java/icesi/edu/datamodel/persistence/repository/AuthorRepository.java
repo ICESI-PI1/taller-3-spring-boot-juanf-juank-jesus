@@ -1,17 +1,21 @@
 package icesi.edu.datamodel.persistence.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import icesi.edu.datamodel.persistence.model.Author;
 import icesi.edu.datamodel.persistence.model.Book;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
 @Repository
 public class AuthorRepository implements AuthorRepositoryI {
+
+    @Autowired
+    private BookRepository bookRepository;
 
     private List<Author> authors;
     private Random random;
@@ -69,13 +73,17 @@ public class AuthorRepository implements AuthorRepositoryI {
         }
     }
 
-
-
-
     @Override
     public boolean delete(long id) {
         Optional<Author> authorToDelete = findById(id);
         if (authorToDelete.isPresent()) {
+
+            if(authorToDelete.get().getBooks() != null) {
+                for(Book book : authorToDelete.get().getBooks()) {
+                    bookRepository.delete(book.getId());
+                }
+            }
+
             return authors.remove(authorToDelete.get());
         }
         return false;

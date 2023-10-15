@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import icesi.edu.datamodel.persistence.model.Author;
 import org.springframework.stereotype.Repository;
 
+import icesi.edu.datamodel.persistence.model.Author;
 import icesi.edu.datamodel.persistence.model.Book;
 
 @Repository
@@ -84,11 +84,17 @@ public class BookRepository implements BookRepositoryI {
     public boolean delete(long id) {
         Iterator<Book> it = books.iterator();
         while (it.hasNext()) {
-            if (it.next().getId() == id) {
+            Book currentBook = it.next();
+            if (currentBook.getId() == id) {
+                Author author = currentBook.getAuthor();
+                if (author != null) {
+                    author.removeBook(currentBook);
+                }
                 it.remove();
                 return true;
             }
         }
         return false;
     }
+
 }

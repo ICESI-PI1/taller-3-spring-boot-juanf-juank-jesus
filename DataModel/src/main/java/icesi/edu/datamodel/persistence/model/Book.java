@@ -12,4 +12,8 @@ public class Book {
     private String title;
     private Date publicationDate;
     private Author author;
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
 }

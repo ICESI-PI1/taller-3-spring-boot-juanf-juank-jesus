@@ -1,8 +1,9 @@
 package icesi.edu.datamodel.service;
 
 import icesi.edu.datamodel.persistence.model.Author;
-import icesi.edu.datamodel.persistence.model.Book; // Asegúrate de que esta importación sea correcta
+import icesi.edu.datamodel.persistence.model.Book;
 import icesi.edu.datamodel.persistence.repository.AuthorRepository;
+import icesi.edu.datamodel.persistence.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
     public List<Author> findAll() {
         return authorRepository.getAll();
     }
@@ -39,7 +42,17 @@ public class AuthorService {
     }
 
     public boolean delete(Long id) {
-        return authorRepository.delete(id);
+        Optional<Author> authorToDelete = authorRepository.findById(id);
+        if (authorToDelete.isPresent()) {
+            List<Book> booksToDelete = authorToDelete.get().getBooks();
+            if (booksToDelete != null) {
+                for (Book book : booksToDelete) {
+                    bookRepository.delete(book.getId());
+                }
+            }
+            return authorRepository.delete(id);
+        }
+        return false;
     }
 
     public List<Book> findBooksByAuthor(Long id) {
