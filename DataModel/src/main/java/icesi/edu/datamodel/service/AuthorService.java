@@ -23,6 +23,10 @@ public class AuthorService {
         return authorRepository.findById(id);
     }
 
+    public boolean existsById(Long id) {
+        return findById(id).isPresent();
+    }
+
     public Author save(Author author) {
         if (authorRepository.add(author)) {
             return author;
